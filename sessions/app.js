@@ -1,26 +1,27 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
-
+require('dotenv').config()
 // Package documentation - https://www.npmjs.com/package/connect-mongo
 const MongoStore = require('connect-mongo')
 
 // Create the Express application
 var app = express();
 // <user>:<password>@
-const dbString = 'mongodb://localhost:27017/tutorial_db';
+const dbString = process.env.DB_STRING;
 const dbOptions = {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }
-const connection = mongoose.createConnection(dbString, dbOptions);
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const sessionStore = MongoStore.create({
+const sessionStore = new MongoStore({
     mongoUrl: dbString,
-    collection: 'sessions'
+    collection: 'sessions',
+    ...dbOptions
 });
 
 app.use(session({
@@ -35,14 +36,14 @@ app.use(session({
 }));
 
 app.get('/', (req, res, next) => {
-
+    console.log(req.session)
     if (req.session.viewCount) {
         req.session.viewCount = req.session.viewCount + 1;
     } else {
         req.session.viewCount = 1;
     }
 
-    res.send(`<h1>You have visited this page ${req.session.viewCount} times.</h1>`)
+    res.send(`<h1>You have visited this page ${req.session.viewCount} times. and req id is ${req.sessionID}</h1>`)
 });
 
 app.listen(5000, () => console.log('session running on port -> 5000'));
