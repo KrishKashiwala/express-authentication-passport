@@ -1,0 +1,21 @@
+{
+  "name": "authenization",
+  "version": "1.0.0",
+  "description": "learning authenization",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start" : "nodemon middleware/app.js",
+    "session" : "nodemon sessions/app.js"
+  },
+  "author": "Krish Kashiwala",
+  "license": "ISC",
+  "dependencies": {
+    "connect-mongo": "^4.4.1",
+    "connect-mongodb-session": "^2.4.1",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "mongoose": "^5.12.10",
+    "nodemon": "^2.0.7"
+  }
+}
